@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jythonroid</string>
+    <string name="sure_cn">确定</string>
+    <string name="sure_en">OK</string>
+    <string name="cancel_cn">取消</string>
+    <string name="cancel_en">Cancel</string>
+    <string name="welcome">Jython For Android</string>
+    <string name="setting">设置</string>
+</resources>
