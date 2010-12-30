@@ -21,10 +21,11 @@ import com.android.dx.dex.file.ClassDefItem;
  * @author Administrator
  */
 public class FixMe {
-	public static String apkpath = "/data/app/";
+	public static String android_data = System.getenv("ANDROID_DATA");
+	public static String apkpath = android_data + "/app/";
 	public static String apkname = "Jythonroid.apk";
 	public static String apppath = apkpath + apkname;
-	public static String tmpdirpath = "/data/jythonroid/";
+	public static String tmpdirpath = android_data + "/jythonroid/";
 	public static boolean isinitialized = false;
 
 	public static boolean initialize() {
@@ -185,108 +186,6 @@ public class FixMe {
 
 	}
 
-	// try {
-	// com.google.dex.file.DexFile outputDex = new
-	// com.google.dex.file.DexFile();
-	// CfOptions cf = new CfOptions();
-	// ClassDefItem clazz = CfTranslator.translate(
-	// fixPath(name.replace('.', '/')
-	// + ".class"), data, cf);
-	// String superclassname=clazz.getSuperclass().toHuman();
-	// String thisclassname=clazz.getThisClass().toHuman();
-	// String typename=clazz.typeName();
-	// TypeList a=clazz.getInterfaces();
-	// for(int i=0;i<a.size();i++){
-	// Type k = a.getType(i);
-	// String hey=k.getClassName();
-	// }
-	// int accessflag=clazz.getAccessFlags();
-	// clazz.getMethods();
-	// return null;
-	// outputDex.add(clazz);
-	// ByteArrayOutputStream abos = new ByteArrayOutputStream();
-	// try {
-	// outputDex.writeTo(abos, null, true);
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	//      
-	//      
-	// byte[] buff = abos.toByteArray();
-	// try {
-	// ProtectionDomain pro = this.getClass().getProtectionDomain();
-	// Class<?> c = defineClass(name, buff, 0, buff.length, pro);
-	// resolveClass(c);
-	// BytecodeLoader.compileClass(c);
-	// return c;
-	// } catch (Exception e) {
-	// File classes=new File("/tmp/classes.dex");
-	// if(classes.exists()){
-	//              
-	// }else{
-	// classes.createNewFile();
-	// }
-	// FileOutputStream baout = new FileOutputStream(classes);
-	// baout.write(buff);
-	// abos.close();
-	// baout.close();
-	//          
-	// Arguments arg = new Arguments();
-	// arg.jarOutput = true;
-	// arg.emptyOk = true;
-	// arg.keepClassesInJar = false;
-	// arg.outName = "/tmp/" + "_pyx0" + ".apk";
-	//
-	// arg.fileNames = new String[] { "/tmp/classes.dex" };
-	// com.google.command.dexer.Main.run(arg);
-
-	// File dex = new File("/data/app/Jythonroid.apk");
-	// if(dex.exists()){
-	// System.out.println("fuck");
-	// }
-	// // try{
-	// try {
-	// DexFile f = new DexFile(dex);
-	// return null;
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// return null;
-	// }
-
-	// File dex = new File("/tmp/" + "Shit" + ".apk");
-	// DexFile f = null;
-	//
-	// if (dex.exists()) {
-	// try {
-	// f = new DexFile(dex);
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// }
-	//
-	// Class<?> c = f.loadClass("org/python/pycode/_pyx0",
-	// ClassLoader.getSystemClassLoader());
-	//  
-	// return null;
-	//  
-	// return f.loadClass(name.replace('.', '/'), getSystemClassLoader());
-	// }catch(Exception e0){
-	// return null;
-	// }
-	// return null;
-	// }
-
-	// } catch (ParseException ex) {
-	// DxConsole.err.println("\ntrouble processing:");
-	// return null;
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// return null;
-	// }
-
 	private static String fixPath(String path) {
 		if (File.separatorChar == '\\')
 			path = path.replace('\\', '/');
@@ -309,7 +208,7 @@ public class FixMe {
 	public static Class<?> getDexClass(String name, byte[] data)
 			throws IOException {
 		//store the data in file
-		File fff = new File("/data/jvm.class");
+		File fff = new File(android_data + "/jvm.class");
 		if (!fff.exists()) {
 			fff.createNewFile();
 		}
