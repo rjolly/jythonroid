@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.python.debug.FixMe;
 
-import android.lang.VMStack;
+import dalvik.system.VMStack;
 
 /**
  * first-class Python type.
@@ -1224,9 +1224,6 @@ public class PyType extends PyObject implements Serializable {
         Class<?> base = null;
         String name = null;
         String[] exposed_methods = null;
-        /**
-         * 注意这里
-         */
         try {
             setup = c.getDeclaredMethod("typeSetup", new Class[] {
                     PyObject.class, Newstyle.class });
@@ -1555,7 +1552,6 @@ public class PyType extends PyObject implements Serializable {
 }
 
 /**
- * 改变那个该死的内部类
  * 
  * @author Administrator
  * 

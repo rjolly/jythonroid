@@ -29,7 +29,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnLongClickListener;
-import android.view.View.OnPopulateContextMenuListener;
+//import android.view.View.OnPopulateContextMenuListener;
 import android.widget.EditText;
 
 //class ShellEditer extends EditText {
@@ -215,7 +215,7 @@ public class Jythonroid extends Activity {
 			Message msg = Message.obtain();
 			HashMap<String, String> data = new HashMap<String, String>();
 			data.put(key, str);
-			msg.setData(data);
+//			msg.setData(data);
 			hd.sendMessage(msg);
 		}
 
@@ -223,7 +223,7 @@ public class Jythonroid extends Activity {
 			Message msg = Message.obtain();
 			HashMap<String, Boolean> data = new HashMap<String, Boolean>();
 			data.put(key, boo);
-			msg.setData(data);
+//			msg.setData(data);
 			hd.sendMessage(msg);
 		}
 
@@ -386,13 +386,13 @@ public class Jythonroid extends Activity {
 			}
 
 		});
-		shell.setOnFocusChangeListener(new OnFocusChangeListener() {
-
-			public void onFocusChanged(View v, boolean b) {
-
-			}
-
-		});
+//		shell.setOnFocusChangeListener(new OnFocusChangeListener() {
+//
+//			public void onFocusChanged(View v, boolean b) {
+//
+//			}
+//
+//		});
 		shell.setOnLongClickListener(new OnLongClickListener() {
 
 			public boolean onLongClick(View v) {
@@ -400,15 +400,15 @@ public class Jythonroid extends Activity {
 			}
 
 		});
-		shell
-				.setOnPopulateContextMenuListener(new OnPopulateContextMenuListener() {
-
-					public void onPopulateContextMenu(ContextMenu cm, View v,
-							Object o) {
-
-					}
-
-				});
+//		shell
+//				.setOnPopulateContextMenuListener(new OnPopulateContextMenuListener() {
+//
+//					public void onPopulateContextMenu(ContextMenu cm, View v,
+//							Object o) {
+//
+//					}
+//
+//				});
 	}
 
 	public void cursorToEnd(EditText shell) {
@@ -418,30 +418,30 @@ public class Jythonroid extends Activity {
 		Selection.setSelection(etext, position);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		menu.add(0, 0, R.string.setting, R.drawable.icon);
-		menu.add(0, 1, R.string.sure_en);
-		menu.add(0, 2, R.string.app_name);
-		return true;
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		super.onCreateOptionsMenu(menu);
+//		menu.add(0, 0, R.string.setting, R.drawable.icon);
+//		menu.add(0, 1, R.string.sure_en);
+//		menu.add(0, 2, R.string.app_name);
+//		return true;
+//	}
 
-	@Override
-	public boolean onOptionsItemSelected(Menu.Item item) {
-		switch (item.getId()) {
-		case 0:
-			alert("fuckyou");
-			return true;
-		case 1:
-			alert("iloveyou");
-			return true;
-		case 2:
-			alert("comeonbaby");
-			return true;
-		}
-		return false;
-	}
+//	@Override
+//	public boolean onOptionsItemSelected(Menu.Item item) {
+//		switch (item.getId()) {
+//		case 0:
+//			alert("fuckyou");
+//			return true;
+//		case 1:
+//			alert("iloveyou");
+//			return true;
+//		case 2:
+//			alert("comeonbaby");
+//			return true;
+//		}
+//		return false;
+//	}
 
 	/**
 	 * alert a string message on the screen

@@ -8,11 +8,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import android.dalvik.DexFile;
+import dalvik.system.DexFile;
 
-import com.google.dex.cf.CfOptions;
-import com.google.dex.cf.CfTranslator;
-import com.google.dex.file.ClassDefItem;
+import com.android.dx.dex.cf.CfOptions;
+import com.android.dx.dex.cf.CfTranslator;
+import com.android.dx.dex.file.ClassDefItem;
 
 /**
  * That's the main Codes that fix the difference between the dalvik and startard
@@ -24,7 +24,7 @@ public class FixMe {
 	public static String apkpath = "/data/app/";
 	public static String apkname = "Jythonroid.apk";
 	public static String apppath = apkpath + apkname;
-	public static String tmpdirpath = "/tmp/jythonroid/";
+	public static String tmpdirpath = "/data/jythonroid/";
 	public static boolean isinitialized = false;
 
 	public static boolean initialize() {
@@ -309,7 +309,7 @@ public class FixMe {
 	public static Class<?> getDexClass(String name, byte[] data)
 			throws IOException {
 		//store the data in file
-		File fff = new File("/tmp/jvm.class");
+		File fff = new File("/data/jvm.class");
 		if (!fff.exists()) {
 			fff.createNewFile();
 		}
@@ -318,7 +318,7 @@ public class FixMe {
 		fos.close();
 
 		//translate the java bytecode to dalvik bytecode
-		com.google.dex.file.DexFile outputDex = new com.google.dex.file.DexFile();
+		com.android.dx.dex.file.DexFile outputDex = new com.android.dx.dex.file.DexFile();
 		CfOptions cf = new CfOptions();
 		ClassDefItem clazz = CfTranslator.translate(fixPath(name.replace('.',
 				'/')
