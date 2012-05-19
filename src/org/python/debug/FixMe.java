@@ -15,16 +15,13 @@ import com.android.dx.dex.cf.CfTranslator;
 import com.android.dx.dex.file.ClassDefItem;
 
 /**
- * That's the main Codes that fix the difference between the dalvik and startard
+ * That's the main Code that fix the differences between the dalvik and standard
  * jvm
  * 
  * @author Administrator
  */
 public class FixMe {
 	public static String android_data = System.getenv("ANDROID_DATA");
-	public static String apkpath = android_data + "/app/";
-	public static String apkname = "Jythonroid.apk";
-	public static String apppath = apkpath + apkname;
 	public static String tmpdirpath = android_data + "/jythonroid/";
 	public static boolean isinitialized = false;
 
@@ -43,19 +40,18 @@ public class FixMe {
 	}
 
 	/**
-	 * the Class.getDeclaringClass() is missed in Android, so there will try the
-	 * official method, and use the fix codes when failed
+	 * the Class.getDeclaringClass() is missing in Android, so it will try
+	 * the official method, and use the fix code when failed
 	 * 
-	 * @param Class
-	 *            <?> c
-	 * @return Class<?> cls
+	 * @param Class c
+	 * @return Class cls
 	 * @throws ClassNotFoundException
 	 */
-	public static Class<?> getDeclaringClass(Class<?> c)
+	public static Class getDeclaringClass(Class c)
 			throws ClassNotFoundException {
 		try {
 			// this will work when google fix the bug
-			Class<?> result = c.getDeclaringClass();
+			Class result = c.getDeclaringClass();
 			return result;
 		} catch (Exception e) {
 			String[] elements = c.getName().replace('.', '/').split("\\$");
@@ -66,7 +62,7 @@ public class FixMe {
 			if (elements.length == 1) {
 				return null;
 			} else {
-				return getClassByName(apkpath + apkname, name);
+				return getClassByName(name);
 
 			}
 		}
@@ -78,13 +74,19 @@ public class FixMe {
 	 * @param classname
 	 * @return
 	 */
-	public static Class<?> getClassByName(String classname) {
-		return getClassByName(apkpath + apkname, classname);
+	public static Class getClassByName(String classname) {
+		try {
+			return Class.forName(classname.replace('/', '.'));
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
-	 * get a class by apk file name and class name need recurse as the Class
-	 * instance can not get when the super class's not infered; Exmaple:<code>
+	 * get a class by apk file name and class name need recursion as the
+	 * Class instance can not get when the super class is not inferred;
+	 * Example:
+	 * <code>
 	 * Class<c>=getClassByName("/tmp/fuck.apk","org/freehust/pystring");
 	 * </code>
 	 * 
@@ -92,22 +94,20 @@ public class FixMe {
 	 *            filename,String classname
 	 * @return Class
 	 */
-	public static Class<?> getClassByName(String filename, String classname) {
+	public static Class getClassByName(String filename, String classname) {
 		try {
 			DexFile f = new DexFile(new File(filename));
-			Class<?> s = f.loadClass(classname, ClassLoader
-					.getSystemClassLoader());
+			Class s = f.loadClass(classname, ClassLoader.getSystemClassLoader());
 			return s;
 		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
+			throw new RuntimeException(filename, e);
 		}
-
 	}
 
 	/**
-	 * need recurse as the Class instance can not get when the super class's not
-	 * infered; <code>
+	 * need recursion as the Class instance can not get when the super
+	 * class is not infered;
+	 * <code>
 	 * method dothis():
 	 * if Class.hasSuperClass:
 	 *    dothis(Class.getSuperClass)
@@ -119,10 +119,10 @@ public class FixMe {
 	 * @return
 	 * @throws ClassNotFoundException
 	 */
-	//    public static Class<?> classForName(String classname)
+	//    public static Class classForName(String classname)
 	//            throws ClassNotFoundException {
-	//        Class<?> b = Class.forName(classname);
-	//        Class<?> tmp = b.getSuperclass();
+	//        Class b = Class.forName(classname);
+	//        Class tmp = b.getSuperclass();
 	//        while (tmp != null) {
 	//            tmp = tmp.getSuperclass();
 	//        }
@@ -136,8 +136,8 @@ public class FixMe {
 	 * @param name
 	 * @return Class
 	 */
-	public static Class<?> getInnerClassByName(Class<?> c, String name) {
-		Class<?>[] inners = c.getClasses();
+	public static Class getInnerClassByName(Class c, String name) {
+		Class[] inners = c.getClasses();
 		for (int i = 0; i < inners.length; i++) {
 			if (inners[i].getName().equals(name)) {
 				return inners[i];
@@ -147,12 +147,12 @@ public class FixMe {
 	}
 
 	/**
-	 * detect whethere Class an Inner one
+	 * detect whether Class an Inner one
 	 * 
 	 * @param c
 	 * @return boolean
 	 */
-	public static boolean isInnerClass(Class<?> c) {
+	public static boolean isInnerClass(Class c) {
 		String name = c.getName();
 		if (name.contains("$")) {
 			return true;
@@ -162,13 +162,13 @@ public class FixMe {
 	}
 
 	/**
-	 * whethere it is an outer class
+	 * whether it is an outer class
 	 * 
 	 * @param c
 	 * @return boolean
 	 */
-	public static boolean isOuterClass(Class<?> c) {
-		Class<?>[] inners = c.getClasses();
+	public static boolean isOuterClass(Class c) {
+		Class[] inners = c.getClasses();
 		if (inners.length == 0) {
 			return false;
 		} else {
@@ -176,12 +176,12 @@ public class FixMe {
 		}
 	}
 
-	public static Class<?> getClass(byte[] bytecode) {
+	public static Class getClass(byte[] bytecode) {
 
 		return null;
 	}
 
-	public static Class<?> getClass(File apkFile) {
+	public static Class getClass(File apkFile) {
 		return null;
 
 	}
@@ -202,41 +202,20 @@ public class FixMe {
 	 * return the dalvik Class object from the java bytecode stream
 	 * @param String name
 	 * @param byte[] data
-	 * @return Class<?> cls
+	 * @return Class cls
 	 * @throws IOException 
 	 */
-	public static Class<?> getDexClass(String name, byte[] data)
+	public static Class getDexClass(String name, byte[] data)
 			throws IOException {
-		//store the data in file
-		File fff = new File(android_data + "/jvm.class");
-		if (!fff.exists()) {
-			fff.createNewFile();
-		}
-		FileOutputStream fos = new FileOutputStream(fff);
-		fos.write(data);
-		fos.close();
-
 		//translate the java bytecode to dalvik bytecode
 		com.android.dx.dex.file.DexFile outputDex = new com.android.dx.dex.file.DexFile();
 		CfOptions cf = new CfOptions();
-		ClassDefItem clazz = CfTranslator.translate(fixPath(name.replace('.',
-				'/')
-				+ ".class"), data, cf);
+		ClassDefItem clazz = CfTranslator.translate(fixPath(name.replace('.', '/') + ".class"), data, cf);
 		outputDex.add(clazz);
-		//create the specific fold in tmpdir
-		File tmpdir = new File(tmpdirpath + name);
-		if (!tmpdir.exists()) {
-			tmpdir.mkdir();
-		} else {
-			if (!tmpdir.isDirectory()) {
-				throw new IOException();
-			}
-		}
 		//create the zip file name.apk
-		File apk = new File(tmpdirpath + name + "/" + name + ".apk");
-		if (!apk.exists()) {
-			apk.createNewFile();
-		}
+		String apkn = tmpdirpath + name + ".apk";
+		File apk = new File(apkn);
+		if (!apk.exists()) apk.createNewFile();
 		ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(apk));
 		ZipEntry classeszip = new ZipEntry("classes.dex");
 		zos.putNextEntry(classeszip);
@@ -244,18 +223,14 @@ public class FixMe {
 		zos.closeEntry();
 		zos.close();
 		//load the name.apk file
-		getClassByName(apppath, "org/python/core/PyFunctionTable");
-		getClassByName(apppath, "org/python/core/PyRunnable");
-		Class<?> c = getClassByName(tmpdirpath + name + "/" + name + ".apk",
-				name.replace('.', '/'));
-		getClassByName(apppath, "org/python/core/PyFunctionTable");
+		Class c = getClassByName(apkn, name.replace('.', '/'));
 		return c;
 	}
 
-	public static Object newInstance(Constructor<?> cst, Object[] objects) {
+	public static Object newInstance(Constructor cst, Object[] objects) {
 		Thread.currentThread().setContextClassLoader(
 				ClassLoader.getSystemClassLoader());
-		Class<?> a = null;
+		Class a = null;
 		try {
 			a = Class.forName("org.python.core.PyObject");
 			Constructor cs = a.getConstructor(new Class[] {});
@@ -286,7 +261,7 @@ public class FixMe {
 
 		//        DexClassLoader a=new DexClassLoader();
 		//        try {
-		//            Class<?> o=a.findClass("org.python.core.PyObject");
+		//            Class o=a.findClass("org.python.core.PyObject");
 		//            o.getClasses();
 		//        } catch (ClassNotFoundException e) {
 		//            // TODO Auto-generated catch block
@@ -295,10 +270,9 @@ public class FixMe {
 		return a;
 	}
 
-	public static void resolveClass(Class<?> c) {
+	public static void resolveClass(Class c) {
 		// TODO Auto-generated method stub
 		//        DexClassLoader dcl=new DexClassLoader();
 		//        dcl.resolveClass(c);
 	}
-
 }

@@ -4,8 +4,6 @@ package org.python.core;
 
 import java.util.*;
 
-import org.python.debug.FixMe;
-
 class CollectionProxy {
     public static final CollectionProxy NoProxy = new EnumerationProxy(null);
 

@@ -1,10 +1,8 @@
 // Copyright (c) Corporation for National Research Initiatives
 package org.python.core;
-import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
-
-import org.python.debug.FixMe;
+import java.io.Serializable;
 
 /**
  * A python class instance.
@@ -715,7 +713,7 @@ public class PyInstance extends PyObject
         while (st.hasMoreTokens()) {
             String s = st.nextToken();
             try {
-            	Class factoryClass = Class.forName(s);
+                Class factoryClass = Class.forName(s);
                 CollectionIter factory =
                         (CollectionIter)factoryClass.newInstance();
                 iterFactories[i++] = factory;

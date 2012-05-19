@@ -2,14 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">   
-<EditText
-	android:id="@+id/shell"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:scrollbars="vertical|horizontal"
-	android:gravity="top"
-	android:text=">>>"
-	android:textSize="12sp"
-/>
+    android:layout_height="fill_parent"
+    >
+<EditText  
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent" 
+    android:text="@string/instructions"
+    android:gravity="top"
+    />
 </LinearLayout>
+

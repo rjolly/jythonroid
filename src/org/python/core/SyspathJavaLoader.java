@@ -12,8 +12,6 @@ import java.io.InputStream;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 
-import org.python.debug.FixMe;
-
 public class SyspathJavaLoader extends ClassLoader {
 
     private static final char SLASH_CHAR = '/';

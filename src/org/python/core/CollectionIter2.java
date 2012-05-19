@@ -6,7 +6,6 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import org.python.debug.FixMe;
 
 class CollectionIter2 extends CollectionIter {
     CollectionIter2() throws Exception {

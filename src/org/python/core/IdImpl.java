@@ -1,14 +1,12 @@
 package org.python.core;
 
-import org.python.debug.FixMe;
-
 public abstract class IdImpl {
 
     public static IdImpl getInstance() {
         if (System.getProperty("java.version").compareTo("1.2") >= 0) {
             try {
                 return (IdImpl) Class.forName("org.python.core.IdImpl2")
-                .newInstance();
+                        .newInstance();
             } catch (Throwable e) {
                 return null;
             }

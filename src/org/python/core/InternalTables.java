@@ -4,8 +4,6 @@ package org.python.core;
 
 import java.util.StringTokenizer;
 
-import org.python.debug.FixMe;
-
 public abstract class InternalTables {
 
     // x__ --> org.python.core.X__InternalTables
@@ -49,7 +47,7 @@ public abstract class InternalTables {
                 }
             }
             // System.err.println("*InternalTables*-create-try: "+id);
-            return (InternalTables) Class.forName(id).newInstance();        
+            return (InternalTables) Class.forName(id).newInstance();
         } catch (Throwable e) {
             // System.err.println(" exc: "+e); // ??dbg
             return null;
