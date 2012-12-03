@@ -8,11 +8,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import dalvik.system.DexFile;
+import dalvik.system.DexClassLoader;
 
 import com.android.dx.dex.cf.CfOptions;
 import com.android.dx.dex.cf.CfTranslator;
 import com.android.dx.dex.file.ClassDefItem;
+import com.android.dx.dex.file.DexFile;
+import com.android.dx.dex.DexOptions;
 
 /**
  * That's the main Code that fix the differences between the dalvik and standard
@@ -21,8 +23,7 @@ import com.android.dx.dex.file.ClassDefItem;
  * @author Administrator
  */
 public class FixMe {
-	public static String android_data = System.getenv("ANDROID_DATA");
-	public static String tmpdirpath = android_data + "/jythonroid/";
+	public static String tmpdirpath = "/data/data/jackpal.androidterm/jythonroid/";
 	public static boolean isinitialized = false;
 
 	public static boolean initialize() {
@@ -96,11 +97,11 @@ public class FixMe {
 	 */
 	public static Class getClassByName(String filename, String classname) {
 		try {
-			DexFile f = new DexFile(new File(filename));
-			Class s = f.loadClass(classname, ClassLoader.getSystemClassLoader());
+			DexClassLoader cl = new DexClassLoader(filename, tmpdirpath, null, ClassLoader.getSystemClassLoader());
+			Class s = cl.loadClass(classname);
 			return s;
-		} catch (IOException e) {
-			throw new RuntimeException(filename, e);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(classname + " in " + filename, e);
 		}
 	}
 
@@ -208,9 +209,10 @@ public class FixMe {
 	public static Class getDexClass(String name, byte[] data)
 			throws IOException {
 		//translate the java bytecode to dalvik bytecode
-		com.android.dx.dex.file.DexFile outputDex = new com.android.dx.dex.file.DexFile();
+		DexOptions opt = new DexOptions();
+		DexFile outputDex = new DexFile(opt);
 		CfOptions cf = new CfOptions();
-		ClassDefItem clazz = CfTranslator.translate(fixPath(name.replace('.', '/') + ".class"), data, cf);
+		ClassDefItem clazz = CfTranslator.translate(fixPath(name.replace('.', '/') + ".class"), data, cf, opt);
 		outputDex.add(clazz);
 		//create the zip file name.apk
 		String apkn = tmpdirpath + name + ".apk";

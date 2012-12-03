@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="instructions">In the terminal emulator:\n  su\n  cd /data/app\n  dalvikvm -classpath org.python.util-1.apk org.python.util.jython [script.py]\n\nSoftware needed:\n  com.noshufou.android.su\n  jackpal.androidterm"</string>
+    <string name="instructions">In the terminal emulator:\n  dalvikvm -classpath /data/app/org.python.util-1.apk org.python.util.jython [script.py]\n\nSoftware needed:\n  jackpal.androidterm"</string>
     <string name="app_name">Jythonroid</string>
 </resources>
